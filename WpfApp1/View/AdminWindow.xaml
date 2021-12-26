@@ -1,0 +1,150 @@
+﻿<Window x:Class="WpfApp1.View.AdminWindow"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:view="clr-namespace:WpfApp1.View"
+        mc:Ignorable="d"
+        Background="Transparent"
+        Title="MainWindow" Height="800" Width="1100" WindowStartupLocation="CenterScreen">
+    <Grid Background="#FF003100" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="670*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!--Заголовок-->
+        <Grid Grid.Column="0" Grid.Row="0" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="2" Source="/Resources/logo.png" Margin="10" />
+            <Label Grid.Column="1" FontSize="34" VerticalAlignment="Center" FontWeight="DemiBold" Foreground ="White" Content="Ресторан" FontFamily="Segoe Script"/>
+        </Grid>
+
+        <Grid Grid.Column="0" Grid.Row="1" Margin="0" Background="WhiteSmoke">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="345*"></RowDefinition>
+                <RowDefinition Height="326*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.RowSpan="2" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="345*"></RowDefinition>
+                    <RowDefinition Height="326*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Calendar x:Name="calendar1" FirstDayOfWeek="Monday" Margin="10,10,9.8,12.8" materialDesign:CalendarAssist.HeaderBackground="#FF003100">
+                    <Calendar.BlackoutDates>
+                        <CalendarDateRange Start="10/5/2013" End="10/8/2013"></CalendarDateRange>
+                    </Calendar.BlackoutDates>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectedDatesChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectedDate}" CommandParameter="{Binding ElementName=calendar1, Path=SelectedDates}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Calendar>
+
+                <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                    <ListView x:Name="listView" ItemsSource="{Binding Total}" Width="Auto" Height="Auto" Margin="0,0,0,0" HorizontalContentAlignment="Center">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" MaxWidth="{Binding ElementName=listView, Path=ActualWidth}"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Background="#FF003100"  Width="250" Height="120" Margin="5">
+                                    <StackPanel.Effect>
+                                        <DropShadowEffect ShadowDepth="0"/>
+                                    </StackPanel.Effect>
+                                    <Grid Width="250" Height="120">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"></RowDefinition>
+                                            <RowDefinition Height="1*"></RowDefinition>
+                                            <RowDefinition Height="1*"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="{Binding Order_Number_View}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="White"/>
+                                        <TextBlock Grid.Row="1" Text="{Binding Total}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="White"/>
+                                        <TextBlock Grid.Row="2" Text="{Binding Chef_Name}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="White"/>
+                                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollViewer>
+            </Grid>
+            <ScrollViewer Grid.Row="1" Grid.Column="1" VerticalScrollBarVisibility="Auto">
+                <ListView x:Name="listView1" ItemsSource="{Binding Popular}" Width="Auto" Height="Auto" Margin="0,0,0,0" HorizontalContentAlignment="Center">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" MaxWidth="{Binding ElementName=listView1, Path=ActualWidth}"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Background="#FF003100" Height="250" Width="200" Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="150*"></RowDefinition>
+                                    <RowDefinition Height="50*"></RowDefinition>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.RowSpan="1" Margin="10">
+                                    <Image Source="{Binding Path=Dish_Image}" Stretch="Uniform" HorizontalAlignment="Center"/>
+                                </Grid>
+                                <TextBlock Foreground="White" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" Text="{Binding Path=Dish_Name}" Height="18"/>
+                                
+                                <Grid.Effect>
+                                    <DropShadowEffect ShadowDepth="0"/>
+                                </Grid.Effect>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollViewer>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="345*"></RowDefinition>
+                    <RowDefinition Height="326*"></RowDefinition>
+                    <RowDefinition Height="326*"></RowDefinition>
+                </Grid.RowDefinitions>
+                
+                <ComboBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="400" x:Name="chefBox" Grid.Row="0" SelectedIndex="{Binding SelectedChef}" ItemsSource="{Binding Chef}" FontSize="14" materialDesign:HintAssist.Hint="Повар" BorderBrush="#FF003100" Foreground="Black" BorderThickness="0,0,0,2">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="DropDownClosed">
+                            <i:InvokeCommandAction Command="{Binding SelectedIndexChangedCommand}" CommandParameter="{Binding ElementName=chefBox, Path=SelectedIndex}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Chef_FullName}" Foreground="Black"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="1" Text="{Binding SumView}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="Black"/>
+                    <TextBlock Grid.Row="0" Text="{Binding Count}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Foreground="Black"/>
+                </Grid>
+            </Grid>
+        </Grid>
+
+
+    </Grid>
+</Window>

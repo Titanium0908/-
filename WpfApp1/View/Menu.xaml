@@ -1,0 +1,321 @@
+﻿<UserControl x:Class="WpfApp1.View.Menu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1100">
+    <Grid Background="WhiteSmoke">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"></ColumnDefinition>
+                <ColumnDefinition Width="500*"></ColumnDefinition>
+                <ColumnDefinition Width="100*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="300*"></RowDefinition>
+                <RowDefinition Height="30*"></RowDefinition>
+            </Grid.RowDefinitions>
+       
+            <TabControl Style="{StaticResource MaterialDesignTabControl}" Grid.Column="1" Grid.Row="0"
+                    Background="WhiteSmoke"
+                    materialDesign:ColorZoneAssist.Mode="Standard"                 
+                    VerticalAlignment="Stretch" HorizontalAlignment="Center" Grid.RowSpan="2">
+            <TabItem Height="50">
+                <TabItem.Header>
+                    <TextBlock Text="Супы" Foreground="Black" />
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ListView x:Name="listView" ItemsSource="{Binding Soupes}" Width="Auto" Height="Auto" Margin="0,0,0,0" HorizontalContentAlignment="Center">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" MaxWidth="{Binding ElementName=listView, Path=ActualWidth}"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <ContentPresenter />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Margin" Value="0,5,0,5"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="IsSelected" Value="True"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Background="#FF003100"  Width="330" Height="330" Margin="5">
+                                    <StackPanel.Effect>
+                                        <DropShadowEffect ShadowDepth="0"/>
+                                    </StackPanel.Effect>
+                                    <Grid Height="300">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="200"></RowDefinition>
+                                            <RowDefinition Height="100"></RowDefinition>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0" Background="White" Margin="5,5,5,85" Grid.RowSpan="2">
+                                            <Image Source="{Binding Path=Dish_Image}" Stretch="Uniform" HorizontalAlignment="Center"/>
+                                        </Grid>
+
+                                        <StackPanel Grid.Row="1" Margin="5">
+                                            <TextBlock Foreground="White" FontSize="16" Text="{Binding Path=Dish_Name}" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Margin="5,20,5,5" />
+                                            <TextBlock Foreground="White" FontSize="15" Text="{Binding Path=CostForView}" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" Margin="5,0,5,5" Height="44" />
+                                        </StackPanel>
+                                            <Button Command="{Binding Path=DataContext.AddSoupTocartCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding ElementName=listView, Path=SelectedIndex}" Background="#78b242" BorderBrush="#78b242" Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"  IsEnabled="{Binding Path=Dish_Aveliability}" ToolTip="MaterialDesignFloatingActionMiniSecondaryButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" Grid.Row="1"  >
+                                            <materialDesign:PackIcon Kind="AddShoppingCart" Foreground="White"/>
+                                        </Button>
+                                        <Button Command="{Binding Path=DataContext.ShowDescriptionForSoup, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding ElementName=listView, Path=SelectedIndex}" Background="#78b242" BorderBrush="#78b242" Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}" ToolTip="MaterialDesignFloatingActionMiniSecondaryButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,50,5" Grid.Row="1"  >
+                                            <materialDesign:PackIcon Kind="ViewList" Foreground="White"/>
+                                        </Button>
+                                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Height="50" Width="200">
+                <TabItem.Header>
+                    <TextBlock Text="Горячие блюда" Foreground="Black" />
+                </TabItem.Header>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ListView x:Name="listView1" ItemsSource="{Binding Hots}" Width="Auto" Height="Auto" Margin="0,0,0,0" HorizontalContentAlignment="Center">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" MaxWidth="{Binding ElementName=listView1, Path=ActualWidth}"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                <ContentPresenter />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Margin" Value="0,5,0,5"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="IsSelected" Value="True"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Background="#FF003100"  Width="330" Height="330" Margin="5">
+                                        <StackPanel.Effect>
+                                            <DropShadowEffect ShadowDepth="0"/>
+                                        </StackPanel.Effect>
+                                        <Grid Height="300">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="200"></RowDefinition>
+                                                <RowDefinition Height="100"></RowDefinition>
+                                            </Grid.RowDefinitions>
+
+                                            <Grid Grid.Row="0" Background="White" Margin="5,5,5,85" Grid.RowSpan="2">
+                                                <Image Source="{Binding Path=Dish_Image}" Stretch="Uniform" HorizontalAlignment="Center"/>
+                                            </Grid>
+
+                                            <StackPanel Grid.Row="1" Margin="5">
+                                                <TextBlock Foreground="White" FontSize="16" Text="{Binding Path=Dish_Name}" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Margin="5,20,5,5" />
+                                                <TextBlock Foreground="White" FontSize="15" Text="{Binding Path=CostForView}" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" Margin="5,0,5,5" Height="44" />
+                                            </StackPanel>
+                                            <Button Command="{Binding Path=DataContext.AddHotsTocartCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding ElementName=listView1, Path=SelectedIndex}" Background="#78b242" BorderBrush="#78b242" Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"  IsEnabled="{Binding Path=Dish_Aveliability}" ToolTip="MaterialDesignFloatingActionMiniSecondaryButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" Grid.Row="1"  >
+                                                <materialDesign:PackIcon Kind="AddShoppingCart" Foreground="White"/>
+                                            </Button>
+                                            <Button Command="{Binding Path=DataContext.ShowDescriptionForHots, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding ElementName=listView1, Path=SelectedIndex}" Background="#78b242" BorderBrush="#78b242" Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}" ToolTip="MaterialDesignFloatingActionMiniSecondaryButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,50,5" Grid.Row="1"  >
+                                                <materialDesign:PackIcon Kind="ViewList" Foreground="White"/>
+                                            </Button>
+                                        </Grid>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </ScrollViewer>
+            </TabItem>
+            <TabItem Height="50">
+                <TabItem.Header>
+                    <TextBlock Text="Закуски" Foreground="Black" />
+                </TabItem.Header>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ListView x:Name="listView2" ItemsSource="{Binding Snacks}" Width="Auto" Height="Auto" Margin="0,0,0,0" HorizontalContentAlignment="Center">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" MaxWidth="{Binding ElementName=listView2, Path=ActualWidth}"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <ContentPresenter />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Margin" Value="0,5,0,5"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="IsSelected" Value="True"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Background="#FF003100"  Width="330" Height="330" Margin="5">
+                                    <StackPanel.Effect>
+                                        <DropShadowEffect ShadowDepth="0"/>
+                                    </StackPanel.Effect>
+                                    <Grid Height="300">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="200"></RowDefinition>
+                                            <RowDefinition Height="100"></RowDefinition>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0" Background="White" Margin="5,5,5,85" Grid.RowSpan="2">
+                                            <Image Source="{Binding Path=Dish_Image}" Stretch="Uniform" HorizontalAlignment="Center"/>
+                                        </Grid>
+
+                                        <StackPanel Grid.Row="1" Margin="5">
+                                            <TextBlock Foreground="White" FontSize="16" Text="{Binding Path=Dish_Name}" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Margin="5,20,5,5" />
+                                            <TextBlock Foreground="White" FontSize="15" Text="{Binding Path=CostForView}" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" Margin="5,0,5,5" Height="44" />
+                                        </StackPanel>
+                                        <Button Command="{Binding Path=DataContext.AddSnacksTocartCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding ElementName=listView2, Path=SelectedIndex}" Background="#78b242" BorderBrush="#78b242" Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"  IsEnabled="{Binding Path=Dish_Aveliability}" ToolTip="MaterialDesignFloatingActionMiniSecondaryButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" Grid.Row="1"  >
+                                            <materialDesign:PackIcon Kind="AddShoppingCart" Foreground="White"/>
+                                        </Button>
+                                        <Button Command="{Binding Path=DataContext.ShowDescriptionForSnacks, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding ElementName=listView2, Path=SelectedIndex}" Background="#78b242" BorderBrush="#78b242" Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}" ToolTip="MaterialDesignFloatingActionMiniSecondaryButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,50,5" Grid.Row="1"  >
+                                            <materialDesign:PackIcon Kind="ViewList" Foreground="White"/>
+                                        </Button>
+                                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    </ScrollViewer>
+                </TabItem>
+            <TabItem Height="50">
+                <TabItem.Header>
+                    <TextBlock Text="Напитки" Foreground="Black" />
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ListView x:Name="listView3" ItemsSource="{Binding Drinks}" Width="Auto" Height="Auto" Margin="0,0,0,0" HorizontalContentAlignment="Center">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" MaxWidth="{Binding ElementName=listView3, Path=ActualWidth}"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <ContentPresenter />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Margin" Value="0,5,0,5"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="IsSelected" Value="True"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Background="#FF003100"  Width="330" Height="330" Margin="5">
+                                    <StackPanel.Effect>
+                                        <DropShadowEffect ShadowDepth="0"/>
+                                    </StackPanel.Effect>
+                                    <Grid Height="300">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="200"></RowDefinition>
+                                            <RowDefinition Height="100"></RowDefinition>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0" Background="White" Margin="5,5,5,85" Grid.RowSpan="2">
+                                            <Image Source="{Binding Path=Dish_Image}" Stretch="Uniform" HorizontalAlignment="Center"/>
+                                        </Grid>
+
+                                        <StackPanel Grid.Row="1" Margin="5">
+                                            <TextBlock Foreground="White" FontSize="16" Text="{Binding Path=Dish_Name}" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Margin="5,20,5,5" />
+                                            <TextBlock Foreground="White" FontSize="15" Text="{Binding Path=CostForView}" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" Margin="5,0,5,5" Height="44" />
+                                        </StackPanel>
+                                            <Button Command="{Binding Path=DataContext.AddDrinksTocartCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding ElementName=listView3, Path=SelectedIndex}" Background="#78b242" BorderBrush="#78b242" Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"  IsEnabled="{Binding Path=Dish_Aveliability}" ToolTip="MaterialDesignFloatingActionMiniSecondaryButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" Grid.Row="1"  >
+                                            <materialDesign:PackIcon Kind="AddShoppingCart" Foreground="White"/>
+                                        </Button>
+                                            <Button Command="{Binding Path=DataContext.ShowDescriptionForDrinks, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding ElementName=listView3, Path=SelectedIndex}" Background="#78b242" BorderBrush="#78b242" Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}" ToolTip="MaterialDesignFloatingActionMiniSecondaryButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,50,5" Grid.Row="1"  >
+                                            <materialDesign:PackIcon Kind="ViewList" Foreground="White"/>
+                                        </Button>
+                                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+         </Grid>
+        <Grid Background="Black" Visibility="{Binding DishVisibility}" Opacity="0.6"/>
+        <Grid Visibility="{Binding DishVisibility}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"></ColumnDefinition>
+                <ColumnDefinition Width="270*"></ColumnDefinition>
+                <ColumnDefinition Width="100*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30*"></RowDefinition>
+                <RowDefinition Height="60*"></RowDefinition>
+                <RowDefinition Height="30*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid Background="#FF003100" Grid.Column="1" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="59*"></ColumnDefinition>
+                    <ColumnDefinition Width="257*"></ColumnDefinition>
+                    <ColumnDefinition Width="281*"></ColumnDefinition>
+                    <ColumnDefinition Width="35*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"></RowDefinition>
+                    <RowDefinition Height="50*"></RowDefinition>
+                    <RowDefinition Height="130*"></RowDefinition>
+                    <RowDefinition Height="70*"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.RowSpan="5" Grid.ColumnSpan="2" Margin="43,11,0,11">
+                    <Image Source="{Binding Path=Dish.Dish_Image}" Stretch="Uniform" HorizontalAlignment="Center"/>
+                </Grid>
+                <TextBlock Foreground="White" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" Text="{Binding Path=Dish.Dish_Name}" Height="18"/>
+                <ListView Foreground="White" Margin="10,9.6,9.8,10.2" Grid.Column="2" Grid.Row="2" ItemsSource="{Binding Path=Dish.Ingredients}"/>
+                <TextBlock Foreground="White" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" Text="{Binding Path=Dish.CostForView}" Height="18"/>
+                <materialDesign:PackIcon Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Kind="ArrowBack" Foreground="White" Height="20" Width="20" Cursor="Hand">
+                    <materialDesign:PackIcon.InputBindings>
+                        <MouseBinding Gesture="LeftClick" Command="{Binding Back}"/>
+                    </materialDesign:PackIcon.InputBindings>
+                </materialDesign:PackIcon>
+            </Grid>
+
+        </Grid>
+    </Grid>
+
+</UserControl>

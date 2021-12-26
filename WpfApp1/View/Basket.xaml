@@ -1,0 +1,128 @@
+﻿<UserControl x:Class="WpfApp1.View.Basket"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1100">
+    <Grid Background="WhiteSmoke">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90*"></ColumnDefinition>
+                <ColumnDefinition Width="300*"></ColumnDefinition>
+                <ColumnDefinition Width="600*"></ColumnDefinition>
+                <ColumnDefinition Width="90*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="300*"></RowDefinition>
+                <RowDefinition Height="30*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"> 
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"></RowDefinition>
+                    <RowDefinition Height="50"></RowDefinition>
+                    <RowDefinition Height="50"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="{Binding Total}" Foreground="Black" FontSize="16" FontWeight="DemiBold"/>
+                <Button Grid.Row="1" Content="Оформить заказ" Background="#78b242" BorderBrush="#78b242" Command="{Binding MakeOrder}"/>
+                <Button Grid.Row="2" Content="Отменить заказ" Background="#78b242" BorderBrush="#78b242" Command="{Binding Cancel}"/>
+            </Grid>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="2" Grid.ColumnSpan="2" Margin="11,50,91,0.4" Grid.RowSpan="2">
+                <ListView x:Name="listView" ItemsSource="{Binding DishBasket}" Width="Auto" Height="Auto" Margin="0,0,0,0" HorizontalContentAlignment="Center">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" MaxWidth="{Binding ElementName=listView, Path=ActualWidth}"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                        <ContentPresenter />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Margin" Value="0,5,0,5"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="IsSelected" Value="True"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Background="#FF003100"  Width="530" Height="330" Margin="5">
+                                <StackPanel.Effect>
+                                    <DropShadowEffect ShadowDepth="0"/>
+                                </StackPanel.Effect>
+                                <Grid Height="300">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="200"></RowDefinition>
+                                        <RowDefinition Height="100"></RowDefinition>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0" Background="White" Margin="5,5,5,85" Grid.RowSpan="2">
+                                        <Image Source="{Binding Path=Dish_Image}" Stretch="Uniform" HorizontalAlignment="Center"/>
+                                    </Grid>
+
+                                    <StackPanel Grid.Row="1" Margin="5">
+                                        <TextBlock Foreground="White" FontSize="16" Text="{Binding Path=Dish_Name}" Style="{StaticResource MaterialDesignSubtitle1TextBlock}" Margin="5,20,5,5" />
+                                        <TextBlock Foreground="White" FontSize="15" Text="{Binding Path=CostForView}" Style="{StaticResource MaterialDesignBody1TextBlock}" TextWrapping="Wrap" Margin="5,0,5,5" Height="44" />
+                                    </StackPanel>
+                                    <Button Command="{Binding Path=DataContext.Bin, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding ElementName=listView, Path=SelectedIndex}" Background="#78b242" BorderBrush="#78b242" Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"  IsEnabled="{Binding Path=Dish_Aveliability}" ToolTip="MaterialDesignFloatingActionMiniSecondaryButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" Grid.Row="1"  >
+                                        <materialDesign:PackIcon Kind="Bin" Foreground="White"/>
+                                    </Button>
+                                    <Button Command="{Binding Path=DataContext.Plus, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding ElementName=listView, Path=SelectedIndex}" Background="#78b242" BorderBrush="#78b242" Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}" ToolTip="MaterialDesignFloatingActionMiniSecondaryButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,50,5" Grid.Row="1"  >
+                                        <materialDesign:PackIcon Kind="Plus" Foreground="White"/>
+                                    </Button>
+                                    <TextBlock Text="{Binding Path=Amount}" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,110,15" Grid.Row="1"/>
+                                    <Button Command="{Binding Path=DataContext.Minus, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding ElementName=listView, Path=SelectedIndex}" Background="#78b242" BorderBrush="#78b242" Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}" ToolTip="MaterialDesignFloatingActionMiniSecondaryButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,140,5" Grid.Row="1"  >
+                                        <materialDesign:PackIcon Kind="Minus" Foreground="White"/>
+                                    </Button>
+                                </Grid>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollViewer>
+        </Grid>
+        <Grid Background="Black" Visibility="{Binding MessageVisibility}" Opacity="0.6"/>
+        <Grid Visibility="{Binding MessageVisibility}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30*"></RowDefinition>
+                <RowDefinition Height="60*"></RowDefinition>
+                <RowDefinition Height="30*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Background="#FF003100" Grid.Column="1" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="5*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="5*"></RowDefinition>
+                    <RowDefinition Height="5*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="1" Grid.Column="1" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Message}"/>
+                <Button Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Content="ОК"  Background="#78b242" BorderBrush="#78b242" Command="{Binding OK}"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
